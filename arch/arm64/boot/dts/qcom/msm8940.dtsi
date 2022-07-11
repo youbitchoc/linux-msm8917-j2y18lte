@@ -77,6 +77,10 @@
 	compatible = "qcom,msm8940-mss-pil";
 };
 
+&iris {
+	compatible = "qcom,wcn3660b";
+};
+
 &cpr {
 	compatible = "qcom,msm8940-cpr", "qcom,cpr";
 };

@@ -1462,7 +1462,7 @@
 			status = "okay";
 
 			iris: iris {
-				compatible = "qcom,wcn3660b";
+				compatible = "qcom,wcn3620";
 
 				clocks = <&rpmcc RPM_SMD_RF_CLK2>;
 				clock-names = "xo";
