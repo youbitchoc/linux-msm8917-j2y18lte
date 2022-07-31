@@ -756,23 +756,10 @@ static int q6v5proc_reset(struct q6v5 *qproc)
 			i = 28;
 		}
 		val = readl(qproc->reg_base + mem_pwr_ctl);
-		if(qproc->version != MSS_MSM8937) {
-			for (; i >= 0; i--) {
-				val |= BIT(i);
-				writel(val, qproc->reg_base + mem_pwr_ctl);
-				/*
-				 * Read back value to ensure the write is done then
-				 * wait for 1us for both memory peripheral and data
-				 * array to turn on.
-				 */
-				val |= readl(qproc->reg_base + mem_pwr_ctl);
-				udelay(1);
-			}
-		} else {
+		if(qproc->version == MSS_MSM8937) {
 			for (; i >= 6; i--) {
 				val |= BIT(i);
-				writel(val, qproc->reg_base +
-							QDSP6SS_MEM_PWR_CTL);
+				writel(val, qproc->reg_base + mem_pwr_ctl);
 				/*
 				 * Wait for 1us for both memory peripheral and
 				 * data array to turn on.
@@ -782,12 +769,23 @@ static int q6v5proc_reset(struct q6v5 *qproc)
 
 			for (i = 0 ; i <= 5 ; i++) {
 				val |= BIT(i);
-				writel(val, qproc->reg_base +
-							QDSP6SS_MEM_PWR_CTL);
+				writel(val, qproc->reg_base + mem_pwr_ctl);
 				/*
 				 * Wait for 1us for both memory peripheral and
 				 * data array to turn on.
 				 */
+				udelay(1);
+			}
+		} else {
+			for (; i >= 0; i--) {
+				val |= BIT(i);
+				writel(val, qproc->reg_base + mem_pwr_ctl);
+				/*
+				 * Read back value to ensure the write is done then
+				 * wait for 1us for both memory peripheral and data
+				 * array to turn on.
+				 */
+				val |= readl(qproc->reg_base + mem_pwr_ctl);
 				udelay(1);
 			}
 		}
@@ -2304,6 +2302,11 @@ static const struct rproc_hexagon_res msm8937_mss = {
 	},
 	.need_mem_protection = false,
 	.has_alt_reset = false,
+	.has_mba_logs = false,
+	.has_spare_reg = false,
+	.has_qaccept_regs = false,
+	.has_ext_cntl_regs = false,
+	.has_vq6 = false,
 	.version = MSS_MSM8937,
 };
 
@@ -2341,6 +2344,11 @@ static const struct rproc_hexagon_res msm8940_mss = {
 	},
 	.need_mem_protection = false,
 	.has_alt_reset = false,
+	.has_mba_logs = false,
+	.has_spare_reg = false,
+	.has_qaccept_regs = false,
+	.has_ext_cntl_regs = false,
+	.has_vq6 = false,
 	.version = MSS_MSM8940,
 };
 
