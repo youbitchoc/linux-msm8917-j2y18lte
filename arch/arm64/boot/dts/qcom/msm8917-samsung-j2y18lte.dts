@@ -1,0 +1,66 @@
+// SPDX-License-Identifier: GPL-2.0-only
+
+/dts-v1/;
+
+#include "msm8917-pm8937.dtsi"
+#include <dt-bindings/leds/common.h>
+#include <dt-bindings/leds/common.h>
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	qcom,msm-id = <0x12f 0x0>;
+	qcom,board-id = <0x8 0x4>;
+
+	j2y18lte-generic {
+		model = "Samsung J2Y18LTE MEA OPEN PROJECT Rev04";
+		compatible = "samsung,j2y18lte", "qcom,msm8917", "lk2nd,device";
+		lk2nd,match-bootloader = "J250*";
+		lk2nd,pstore = <0x86100000 0x100000>;
+	};
+
+	soc {
+		qcom,memshare {
+			memory-region = <0xfe>;
+			qcom,client_4 {
+				qcom,peripheral-size = <0x0>;
+			};
+		};
+	};
+
+	reserved-memory {
+		other_ext_region@86100000 {
+			reg = <0x0 0x86100000 0x0 0x700000>;
+		};
+
+		venus_region@0 {
+			reg = <0x0 0x8fc00000 0x0 0x400000>;
+		};
+
+		lk_region@0 {
+			reg = <0x0 0x8f600000 0x0 0x300000>;
+		};
+
+		modem_shared_mem_region@93000000 {
+			reg = <0x0 0x93000000 0x0 0x6000000>;
+		};
+	};
+};
+
+&dsi0 {
+        panel@0 {
+                compatible = "mdss,ea8061s-ams498qv01";
+                reg = <0>;
+
+
+                port {
+                        panel_in: endpoint {
+                                remote-endpoint = <&dsi0_out>;
+                        };
+                };
+        };
+};
+
+&dsi0_out {
+        data-lanes = <0 1>;
+        remote-endpoint = <&panel_in>;
+};

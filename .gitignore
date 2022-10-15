@@ -10,6 +10,7 @@
 #
 # Normal rules (sorted alphabetically)
 #
+cdtb
 .*
 *.a
 *.asn1.[ch]
